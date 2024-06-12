@@ -1,5 +1,6 @@
 package com.losevskiyfz.nplusonetask.bootstrap;
 
+import com.losevskiyfz.nplusonetask.dto.QuestionAnswerDto;
 import com.losevskiyfz.nplusonetask.entity.Answer;
 import com.losevskiyfz.nplusonetask.entity.Question;
 import com.losevskiyfz.nplusonetask.entity.Test;
@@ -75,17 +76,20 @@ public class Bootstrap implements CommandLineRunner {
 
         System.out.println("Try to access some questions and answers...");
 
-        List<Question> questions = questionRepository.findAll();
+        List<QuestionAnswerDto> questions = questionRepository.findQuestionsAndAnswers();
 
-        for(Question question: questions){
-            System.out.println("Question: " + question.getQuestion());
-            System.out.println("Answer: " + question.getAnswer().getAnswer());
+        for(QuestionAnswerDto question: questions){
+            System.out.println("Question: " + question.getQuestionText());
+            System.out.println("Answer: " + question.getAnswerText());
         }
 
-        assertSelectCount(questions.size() + 1);
+//        assertSelectCount(questions.size() + 1);
+        assertSelectCount(1);
 
         System.out.println("How many select queries have benn occurred?");
-        System.out.println("questions.size() + 1 = " + (questions.size() + 1));
+
+//        System.out.println("questions.size() + 1 = " + (questions.size() + 1));
+        System.out.println(1);
 
         System.out.println("---------- END OF THE VERIFYING QUERIES DURING ISSUING COMPOUND DATA ----------");
 
