@@ -6,6 +6,8 @@ import com.losevskiyfz.nplusonetask.entity.Question;
 import com.losevskiyfz.nplusonetask.entity.Test;
 import com.losevskiyfz.nplusonetask.repository.QuestionRepository;
 import com.losevskiyfz.nplusonetask.repository.TestRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Lazy;
@@ -22,12 +24,16 @@ public class Bootstrap implements CommandLineRunner {
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
     private final Bootstrap bootstrap;
+    private final Logger logger;
+
+
 
     @Autowired
-    public Bootstrap(TestRepository testService, QuestionRepository questionRepository, @Lazy Bootstrap bootstrap) {
-        this.testRepository = testService;
+    public Bootstrap(TestRepository testRepository, QuestionRepository questionRepository, @Lazy Bootstrap bootstrap) {
+        this.testRepository = testRepository;
         this.questionRepository = questionRepository;
         this.bootstrap = bootstrap;
+        logger = LoggerFactory.getLogger(getClass());
     }
 
     private void initializeDatabase(){
@@ -72,26 +78,26 @@ public class Bootstrap implements CommandLineRunner {
 
     @Transactional
     public void verifyNPlusOne(){
-        System.out.println("---------- VERIFY THE NUMBER OF QUERIES DURING ISSUING COMPOUND DATA ----------");
+        logger.info("---------- VERIFY THE NUMBER OF QUERIES DURING ISSUING COMPOUND DATA ----------");
 
-        System.out.println("Try to access some questions and answers...");
+        logger.info("Try to access some questions and answers...");
 
         List<QuestionAnswerDto> questions = questionRepository.findQuestionsAndAnswers();
 
         for(QuestionAnswerDto question: questions){
-            System.out.println("Question: " + question.getQuestionText());
-            System.out.println("Answer: " + question.getAnswerText());
+            logger.info("Question: {}", question.getQuestionText());
+            logger.info("Answer: {}", question.getAnswerText());
         }
 
 //        assertSelectCount(questions.size() + 1);
         assertSelectCount(1);
 
-        System.out.println("How many select queries have benn occurred?");
+        logger.info("How many select queries have benn occurred?");
 
 //        System.out.println("questions.size() + 1 = " + (questions.size() + 1));
-        System.out.println(1);
+        logger.info("1");
 
-        System.out.println("---------- END OF THE VERIFYING QUERIES DURING ISSUING COMPOUND DATA ----------");
+        logger.info("---------- END OF THE VERIFYING QUERIES DURING ISSUING COMPOUND DATA ----------");
 
     }
 
