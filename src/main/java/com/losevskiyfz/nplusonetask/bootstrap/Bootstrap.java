@@ -33,7 +33,7 @@ public class Bootstrap implements CommandLineRunner {
         this.testRepository = testRepository;
         this.questionRepository = questionRepository;
         this.bootstrap = bootstrap;
-        logger = LoggerFactory.getLogger(getClass());
+        this.logger = LoggerFactory.getLogger(getClass());
     }
 
     private void initializeDatabase(){
